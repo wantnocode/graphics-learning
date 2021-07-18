@@ -1,8 +1,7 @@
 "use strict";
 
 function main() {
-  // Get A WebGL context
-  /** @type {HTMLCanvasElement} */
+  
   var canvas = document.querySelector("#canvas");
   var gl = canvas.getContext("webgl");
   if (!gl) {
@@ -70,6 +69,8 @@ function main() {
     return textureInfo;
   }
   var texInfo = loadImageAndCreateTextureInfo('https://webglfundamentals.org/webgl/resources/leaves.jpg');
+
+
   function isPowerOf2(value) {
     return (value & (value - 1)) === 0;
   }
@@ -91,14 +92,16 @@ function main() {
 
   requestAnimationFrame(render);
 
-
+  // draw 绘制
   function render(time) {
+
+    // 时间 动画执行速度
     time *= 0.001;
     var deltaTime = time - then;
     then = time;
 
     webglUtils.resizeCanvasToDisplaySize(gl.canvas);
-
+    // 初始化视图大小
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
     gl.enable(gl.CULL_FACE);
@@ -159,20 +162,20 @@ function main() {
     var matrix = m4.xRotate(viewProjectionMatrix, modelXRotationRadians);
     matrix = m4.yRotate(matrix, modelYRotationRadians);
 
-    // Set the matrix.
+    // 设置矩阵
     gl.uniformMatrix4fv(matrixLocation, false, matrix);
 
-    // Tell the shader to use texture unit 0 for u_texture
+    // 告诉着色器使用纹理单元0作为u_texture
     gl.uniform1i(textureLocation, 0);
 
-    // Draw the geometry.
+    // 绘制几何体
     gl.drawArrays(gl.TRIANGLES, 0, 6 * 6);
 
     requestAnimationFrame(render);
   }
 }
 
-// Fill the buffer with the values that define a cube.
+// 多维数据填充缓冲区
 function setGeometry(gl) {
   var positions = new Float32Array(
     [
@@ -222,7 +225,7 @@ function setGeometry(gl) {
   gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
 }
 
-// Fill the buffer with texture coordinates the cube.
+// 立方体的纹理坐标填充缓冲区
 function setTexcoords(gl) {
   gl.bufferData(
       gl.ARRAY_BUFFER,
